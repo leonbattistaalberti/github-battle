@@ -2,6 +2,7 @@ import React from 'react'
 // react-dom is for rendering to browser DOM
 import ReactDOM from 'react-dom'
 import './index.css'
+import Popular from './components/Popular'
 
 // Component 
 // State
@@ -12,7 +13,7 @@ class App extends React.Component {
     render () {
         return (
             <div>
-                <h1>Hello World</h1>
+                <Popular/>
             </div>
             )
     }
