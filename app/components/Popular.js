@@ -1,5 +1,39 @@
 import React from 'react'
 
+function LanguagesNav ({selected, onUpdateLanguage}) {
+
+   // Array of Popular languages
+        // used to create a list of buttons
+        const languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python']
+        return (
+            <div>
+                <ul className = 'flex-center'>
+                {/*  
+                 * create list of languages using the languages array
+                 */}
+
+                    {languages.map((language, index) => {
+                        return (
+                        <li key= {language}>
+                        <button 
+                            style = {language === selected ? {color: 'rgb(187,46,31)'} : null}
+                        // When a button is clicked the onClick function 
+                        // the language clicked is passed to the updateLanguage function 
+                            onClick = {() => onUpdateLanguage(language)}
+                            className = 'btn-clear-nav-link'> 
+                            {language}
+                        </button>
+                        </li>
+
+                        )
+                    })}
+                </ul>
+                
+            </div>
+        )
+
+}
+
 export default class Popular extends React.Component {
     constructor (props) {
         super(props) 
@@ -7,6 +41,8 @@ export default class Popular extends React.Component {
         this.state = {
             selectedLanguage: 'All'
         }
+
+        this.updateLanguage = this.updateLanguage.bind(this)
 
     }
 
@@ -23,35 +59,14 @@ export default class Popular extends React.Component {
 
     render() {
 
-        // Array of Popular languages
-        // used to create a list of buttons
-        const languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python']
+        const {selectedLanguage} = this.state
+
         return (
-            <div>
-
-                <ul className = 'flex-center'>
-                {/*  
-                 * create list of languages using the languages array
-                 */}
-
-                    {languages.map((language, index) => {
-                        return (
-                        <li key= {language}>
-                        <button 
-                        // When a button is clicked the onClick function 
-                        // the language clicked is passed to the updateLanguage function 
-                            onClick = {() => this.updateLanguage(language)}
-                            style = {language === this.state.selectedLanguage ? {color: 'rgb(187,46,31)'} : null}
-                            className = 'btn-clear-nav-link'> 
-                            {language}
-                        </button>
-                        </li>
-                        
-                        )
-                    })}
-                </ul>
-                
-            </div>
-        )
+            <React.Fragment>
+                <LanguagesNav
+                selected = {selectedLanguage}
+                onUpdateLanguage = {this.updateLanguage}/>
+            </React.Fragment>
+        )     
     }
 }
