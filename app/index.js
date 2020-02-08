@@ -1,39 +1,20 @@
 import React from 'react'
-// react-dom is for rendering to browser DOM
 import ReactDOM from 'react-dom'
 import './index.css'
 import Popular from './components/Popular'
-
-// Component 
-// State
-// Lifecycle
-// UI
+import Battle from './components/Battle'
 
 class App extends React.Component {
-    render () {
-        return (
-            <div>
-                <Popular/>
-            </div>
-            )
-    }
+  render() {
+    return (
+      <div className='container'>
+        <Battle />
+      </div>
+    )
+  }
 }
 
-/**
- * Babel does the following to the above: 
- * return React.renderElement (
- * "div",
- * null, 
- * "Hello World"
- * )
- */
-
-// @ts-ignore
 ReactDOM.render(
-/**
- * Argument 1: react element
- * Argument 2: where to render the element to 
- */
-<App/>, 
-document.getElementById('app')
- )
+  <App />,
+  document.getElementById('app')
+)
