@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaUserFriends, FaFighterJet, FaTrophy } from 'react-icons/fa'
+import { FaUserFriends, FaFighterJet, FaTrophy, FaTimesCircle } from 'react-icons/fa'
 import PropTypes from 'prop-types'
 
 function Instructions () {
@@ -25,6 +25,7 @@ function Instructions () {
     </div>
   )
 }
+
 
 class PlayerInput extends React.Component {
   constructor(props) {
@@ -81,6 +82,30 @@ PlayerInput.propTypes = {
   label: PropTypes.string.isRequired
 }
 
+function PlayerPreview ({username, onReset, label}) {
+  return (
+    <div className = 'column player'>
+          <h3 className = 'player-name'>{label}</h3>
+        <div className = 'row bg-light'>
+          <div className = 'player-info'>
+          
+            <img
+              className = 'avatar-small'
+              src = {`https://www.github.com/${username}.png?size=200`}
+              alt = {`Avatar for ${username}`}/>
+              <a href = {`https://www.github.com/${username}`}
+                 className = 'link'>
+                    {username}
+              </a>
+          </div>
+            <button className = 'btn-clear flex-center' onClick = {onReset}>
+              <FaTimesCircle/>
+            </button>
+        </div>
+    </div>
+      )
+}
+
 export default class Battle extends React.Component {
   constructor (props) {
     super(props) 
@@ -89,7 +114,7 @@ export default class Battle extends React.Component {
       playerTwo: null
     }  
     this.handleSubmit = this.handleSubmit.bind(this)
-
+    this.handleReset = this.handleReset.bind(this)
   }
 
   handleSubmit (id, player) {
@@ -97,6 +122,12 @@ export default class Battle extends React.Component {
       [id] : player
     })
   }
+  handleReset (id) {
+    this.setState({
+      [id]: null
+    })
+  }
+
   render() {
     const { playerOne, playerTwo } = this.state
     return (
@@ -107,19 +138,28 @@ export default class Battle extends React.Component {
               <h1 className = 'center-text header-lg'> Player 1 </h1>
           </div>
             <div className = 'row space-around'>
-              {playerOne === null && (
+              {playerOne === null ? (
                 <PlayerInput 
                   label = "Label" 
                   onSubmit = {(player) => this.handleSubmit('playerOne', player)}/>
-              )}
+              
+                ) : <PlayerPreview 
+                      username = {playerOne}
+                      onReset = {()=> {this.handleReset('playerOne')}}
+                      />
+            } 
           </div>
           
           <div className = 'row space-around'>
-              {playerTwo === null && (
+              {playerTwo === null ? (
                 <PlayerInput 
                   label = "Label" 
                   onSubmit = {(player) => this.handleSubmit('playerTwo', player)}/>
-              )}
+              ) : <PlayerPreview 
+                    username = {playerTwo} 
+                    onReset = {()=> {this.handleReset('playerTwo')}}
+                    />
+            } 
           </div>
         </div>
 
