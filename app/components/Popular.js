@@ -1,7 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { fetchPopularRepos } from '../utils/api'
-import { FaUser, FaStar, FaCodeBranch, FaExclamationTriangle } from 'react-icons/fa'
+import {
+  FaUser,
+  FaStar,
+  FaCodeBranch,
+  FaExclamationTriangle
+} from 'react-icons/fa'
 import Card from './Card'
 
 function LangaugesNav ({ selected, onUpdateLanguage }) {
@@ -9,12 +14,13 @@ function LangaugesNav ({ selected, onUpdateLanguage }) {
 
   return (
     <ul className='flex-center'>
-      {languages.map((language) => (
+      {languages.map(language => (
         <li key={language}>
           <button
             className='btn-clear nav-link'
             style={language === selected ? { color: 'rgb(187, 46, 31)' } : null}
-            onClick={() => onUpdateLanguage(language)}>
+            onClick={() => onUpdateLanguage(language)}
+          >
             {language}
           </button>
         </li>
@@ -28,62 +34,61 @@ LangaugesNav.propTypes = {
   onUpdateLanguage: PropTypes.func.isRequired
 }
 
-function ReposGrid ({repos}) {
+function ReposGrid ({ repos }) {
   return (
-   <ul className = 'grid space-around'>
+    <ul className='grid space-around'>
       {repos.map((repo, index) => {
-          const {name, html_url, forks, owner, license, open_issues, stargazers_count} = repo
-          const {login, avatar_url} = owner
+        const {
+          name,
+          html_url,
+          forks,
+          owner,
+          license,
+          open_issues,
+          stargazers_count
+        } = repo
+        const { login, avatar_url } = owner
 
-          return (
-            <li key = {html_url} className = 'card bg-light'>
-
+        return (
+          <li key={html_url} className='card bg-light'>
             <Card
-
-            header = {`#${index + 1}`}
-            avatar = {avatar_url}
-            href = {html_url}
-            name = {login}
-            
+              header={`#${index + 1}`}
+              avatar={avatar_url}
+              href={html_url}
+              name={login}
             >
-
-            <ul className = 'classList'>
+              <ul className='classList'>
                 <li>
-                    <FaUser/>
-                    <a href = {`https://github.com/${login}`}> {login}
-                    </a>
+                  <FaUser />
+                  <a href={`https://github.com/${login}`}> {login}</a>
                 </li>
 
                 <li>
-                    <FaStar/> {stargazers_count} stars
+                  <FaStar /> {stargazers_count} stars
                 </li>
                 <li>
-                    <FaCodeBranch/> {forks.toLocaleString()} forks
+                  <FaCodeBranch /> {forks.toLocaleString()} forks
                 </li>
                 <li>
-                    <FaExclamationTriangle/> {open_issues} open issues
+                  <FaExclamationTriangle /> {open_issues} open issues
                 </li>
-
               </ul>
-            
             </Card>
-            </li>
-          )
-        }
-
-      )}
-     </ul>
+          </li>
+        )
+      })}
+    </ul>
   )
 }
 
 export default class Popular extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = {
       selectedLanguage: 'All',
       repos: {},
-      error: null,
+      error: null
     }
 
     this.updateLanguage = this.updateLanguage.bind(this)
@@ -93,16 +98,15 @@ export default class Popular extends React.Component {
     this.updateLanguage(this.state.selectedLanguage)
   }
 
-
   updateLanguage (selectedLanguage) {
     this.setState({
       selectedLanguage,
-      error: null,
+      error: null
     })
 
     if (!this.state.repos[selectedLanguage]) {
       fetchPopularRepos(selectedLanguage)
-        .then((data) => {
+        .then(data => {
           this.setState(({ repos }) => ({
             repos: {
               ...repos,
@@ -110,7 +114,7 @@ export default class Popular extends React.Component {
             }
           }))
         })
-        .catch((error) => {
+        .catch(error => {
           console.warn('Error fetching repos: ', error)
 
           this.setState({
@@ -119,14 +123,14 @@ export default class Popular extends React.Component {
         })
     }
   }
-  
-  isLoading() {
+
+  isLoading () {
     const { selectedLanguage, repos, error } = this.state
 
     return !repos[selectedLanguage] && error === null
   }
 
-  render() {
+  render () {
     const { selectedLanguage, repos, error } = this.state
 
     return (
@@ -138,9 +142,11 @@ export default class Popular extends React.Component {
 
         {this.isLoading() && <p>LOADING</p>}
 
-        {error && <p className = 'center-text error'>{error}</p>}
+        {error && <p className='center-text error'>{error}</p>}
 
-        {repos[selectedLanguage] && <ReposGrid repos = {repos[selectedLanguage]}/>}
+        {repos[selectedLanguage] && (
+          <ReposGrid repos={repos[selectedLanguage]} />
+        )}
       </React.Fragment>
     )
   }
