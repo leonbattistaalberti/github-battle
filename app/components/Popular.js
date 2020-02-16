@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { fetchPopularRepos } from '../utils/api'
 import { FaUser, FaStar, FaCodeBranch, FaExclamationTriangle } from 'react-icons/fa'
-
+import Card from './Card'
 
 function LangaugesNav ({ selected, onUpdateLanguage }) {
   const languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python']
@@ -37,18 +37,17 @@ function ReposGrid ({repos}) {
 
           return (
             <li key = {html_url} className = 'card bg-light'>
-              <h4 className = 'header-lg center-text'>
-                  #{index + 1}
-              </h4>
-              <img
-                  src = {avatar_url}
-                  className = 'avatar'
-                  alt = {`Avatar for ${login}`}
-              />
-              <h2 className = 'center-text'>
-                  <a className = 'link' href = {html_url}>{login}</a>
-              </h2>
-              <ul className = 'classList'>
+
+            <Card
+
+            header = {`#${index + 1}`}
+            avatar = {avatar_url}
+            href = {html_url}
+            name = {login}
+            
+            >
+
+            <ul className = 'classList'>
                 <li>
                     <FaUser/>
                     <a href = {`https://github.com/${login}`}> {login}
@@ -66,6 +65,8 @@ function ReposGrid ({repos}) {
                 </li>
 
               </ul>
+            
+            </Card>
             </li>
           )
         }
@@ -99,13 +100,9 @@ export default class Popular extends React.Component {
       error: null,
     })
 
-    console.log(this.state.repos)
-    //console.log(this.state.repos[selectedLanguage])
-
     if (!this.state.repos[selectedLanguage]) {
       fetchPopularRepos(selectedLanguage)
         .then((data) => {
-          console.log(data)
           this.setState(({ repos }) => ({
             repos: {
               ...repos,
@@ -113,7 +110,7 @@ export default class Popular extends React.Component {
             }
           }))
         })
-        .catch(() => {
+        .catch((error) => {
           console.warn('Error fetching repos: ', error)
 
           this.setState({
@@ -122,11 +119,13 @@ export default class Popular extends React.Component {
         })
     }
   }
+  
   isLoading() {
     const { selectedLanguage, repos, error } = this.state
 
     return !repos[selectedLanguage] && error === null
   }
+
   render() {
     const { selectedLanguage, repos, error } = this.state
 

@@ -104,15 +104,8 @@ export function fetchPopularRepos (language) {
      * then(data) returns 
      * data.items
     */ 
-        .then((res) => {
-            // console.log("res From api.js")
-            // console.log(res)
-            // console.log(res.json())
-            res.json()
-        })
+        .then((res) => res.json())
         .then((data) => {
-            // console.log("data From api.js")
-            // console.log(data.items)
             if (!data.items) {
                 throw new Error(data.message)
             }
