@@ -10,6 +10,8 @@ import {
 } from 'react-icons/fa'
 import Card from './Card'
 import PropTypes from 'prop-types'
+import Loading from './Loading'
+import Tooltip from './Tooltip'
 
 function ProfileList ({ profile }) {
   return (
@@ -23,14 +25,18 @@ function ProfileList ({ profile }) {
       </li>
       {profile.location && (
         <li>
-          <FaCompass />
-          {profile.location}
+          <Tooltip text={"User's location"}>
+            <FaCompass />
+            {profile.location}
+          </Tooltip>
         </li>
       )}
       {profile.company && (
         <li>
-          <FaBriefcase />
-          FaBriefcase
+          <Tooltip text={"User's company"}>
+            <FaBriefcase />
+            FaBriefcase
+          </Tooltip>
         </li>
       )}
       <li>
@@ -80,7 +86,7 @@ export default class Results extends React.Component {
     const { winner, loser, error, loading } = this.state
 
     if (loading === true) {
-      return <p> LOADING </p>
+      return <Loading />
     }
 
     if (error) {
@@ -125,7 +131,7 @@ export default class Results extends React.Component {
 }
 
 Results.propTypes = {
-  playerOne : PropTypes.string.isRequired,
+  playerOne: PropTypes.string.isRequired,
   playerTwo: PropTypes.string.isRequired,
   onReset: PropTypes.func.isRequired
 }

@@ -8,6 +8,8 @@ import {
   FaExclamationTriangle
 } from 'react-icons/fa'
 import Card from './Card'
+import Loading from './Loading'
+import Tooltip from './Tooltip' 
 
 function LangaugesNav ({ selected, onUpdateLanguage }) {
   const languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python']
@@ -59,8 +61,10 @@ function ReposGrid ({ repos }) {
             >
               <ul className='classList'>
                 <li>
+                <Tooltip text = {"Username"}>
                   <FaUser />
                   <a href={`https://github.com/${login}`}> {login}</a>
+                </Tooltip>
                 </li>
 
                 <li>
@@ -140,7 +144,7 @@ export default class Popular extends React.Component {
           onUpdateLanguage={this.updateLanguage}
         />
 
-        {this.isLoading() && <p>LOADING</p>}
+        {this.isLoading() && <Loading text = 'Fetching Repos'/>}
 
         {error && <p className='center-text error'>{error}</p>}
 
